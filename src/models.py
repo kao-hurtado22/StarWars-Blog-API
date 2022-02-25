@@ -3,9 +3,9 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
-    __tablename__ = 'User'
+    __tablename__ = 'user'
     id =db.Column(db.Integer, primary_key=True)
-    email =  db.Column(db.String(100), unique=true, nullable=False)
+    email =  db.Column(db.String(100), unique=True, nullable=False)
     password =  db.Column(db.String(100), nullable=False)
     characters = db.relationship('Characters', backref='user', uselist=False)
 
@@ -36,10 +36,10 @@ class Characters(db.Model):
     specie =db.Column(db.Text(), default="")
     homeworld = db.Column(db.Text(), default="")
     gender = db.Column(db.Text(), default="")
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     favorites_characters = db.relationship('favorites_characters', backref='characters', uselist=False)
     
-     def serialize(self):
+    def serialize(self):
         return {
             "id": self.id,
             "email": self.user.email,
@@ -50,10 +50,10 @@ class Characters(db.Model):
             "favorites_characters": self.favorites_characters.serialize()
         }
 
-class favorites_characters(db.Model):
+class Favorites_characters(db.Model):
     __tablename__ = 'favorites_characters'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     characters_id = db.Column(db.Integer, db.ForeignKey('characters.id'), nullable=False)
 
     def serialize(self):
@@ -61,7 +61,7 @@ class favorites_characters(db.Model):
             "id": self.id
         }
 
-class planets(db.Model):
+class Planets(db.Model):
     __tablename__ = 'planets'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -78,10 +78,10 @@ class planets(db.Model):
             "favorites_plantes": self.favorites_planets.serialize()
         }
 
-class favorites_planets(db.Model):
+class Favorites_planets(db.Model):
     __tablename__ = 'favorites_planets'
     id =db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     planets_id = db.Column(db.Integer, db.ForeignKey('planets.id'), nullable=False)
 
     def serialize(self):
@@ -89,10 +89,10 @@ class favorites_planets(db.Model):
             "id": self.id
         }
 
-class starships(db.Model):
+class Starships(db.Model):
     __tablename__ = 'starships'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=false)
+    name = db.Column(db.String(100), nullable=False)
     model = db.Column(db.String(100), nullable=False)
     manufacturer = db.Column(db.String(100), nullable=False)
     starship_class = db.Column(db.String(100), nullable=False)
@@ -108,10 +108,10 @@ class starships(db.Model):
             "favorites_starships": self.favorites_starships.serialize()
         }
 
-class favorites_starships(db.Model):
+class Favorites_starships(db.Model):
     __tablename__ = 'favorites_starships'
     id = db.Column(db.Integer, primary_key=True)
-    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     starships_id = db.Column(db.Integer, db.ForeignKey('starships.id'), nullable=False)
 
     def serialize(self):

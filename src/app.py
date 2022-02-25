@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, json
 from flask_migrate import Migrate
-from models import db, User, Profile
+from models import db, User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (JWTManager, create_access_token, get_jwt_identity, jwt_required)
 import datetime
@@ -30,7 +30,6 @@ def users(id = None):
             users = list(map(lambda user: user.serialize(), users))
             return jsonify(users), 200
 
-            """ columna de Characters """
 
     if request.method == 'POST':
        
@@ -84,7 +83,7 @@ def users(id = None):
 
         """ Columna de Planets """
 
-  if request.method == 'POST':
+    if request.method == 'POST':
        
         name = request.json.get('name')
         terrain = request.json.get('terrain')
